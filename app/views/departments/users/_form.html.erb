@@ -1,0 +1,62 @@
+<%= error_messages_for 'member' %>
+<% members = @department.users.sort %>
+
+<div class="splitcontentleft">
+<% if members.any? %>
+<table class="list members">
+	<thead><tr>
+	  <th><%= l(:label_user) %> / <%= l(:label_group) %></th>
+      <% if authorize_for_with_global :departments, :removecontact, true %>
+	  <th style="width:15%"></th>
+      <% end %>
+	</tr></thead>
+	<tbody>
+	<% members.each do |member| %>
+	<% next if member.new_record? %>
+	<tr id="member-<%= member.id %>" class="<%= cycle 'odd', 'even' %> member">
+	<td class="<%= member.class.name.downcase %>"><%= link_to_user member %></td>
+    <% if authorize_for_with_global :departments, :removecontact, true %>
+  <td class="buttons">
+      <%= link_to_remote(l(:button_delete), { :url => {:controller => 'departments', :action => 'removeuser', :id => @department, :user_id => member},
+                                              :method => :post,
+                                              :confirm => (!User.current.admin? && member.include?(User.current) ? l(:text_own_membership_delete_confirmation) : nil)
+                                            }, :title => l(:button_delete),
+                                               :class => 'icon icon-del') %>
+  </td>
+    <% end %>
+	</tr>
+<% end; reset_cycle %>
+	</tbody>
+</table>
+<% else %>
+<p class="nodata"><%= l(:label_no_data) %></p>
+<% end %>
+</div>
+
+
+<% principals = User.active.find(:all, :limit => 100, :order => 'type, login, lastname ASC') - @department.users %>
+
+<div class="splitcontentright">
+<% if principals.any? %>
+  <% remote_form_for(:member, @member, :url => {:controller => 'departments', :action => 'adduser', :id => @department}, :method => :post,
+									   :loading => "$('member-add-submit').disable()",
+									   :complete => "$('member-add-submit').enable()") do |f| %>
+    <fieldset><legend><%=l(:label_member_new)%></legend>
+    
+		<p><%= label_tag "principal_search", l(:label_user_search) %><%= text_field_tag 'principal_search', nil %></p>
+		<%= observe_field(:principal_search,
+                 :frequency => 0.5,
+                 :update => :principals,
+                 :url => { :controller => 'departments', :action => 'autocomplete_for_user', :id => @department },
+                 :with => 'q')
+                  %>
+		
+		<div id="principals">
+			<%= principals_check_box_tags 'member[user_ids][]', principals %>
+		</div>
+		
+    <p><%= submit_tag l(:button_add), :id => 'member-add-submit' %></p>
+		</fieldset>
+  <% end %>
+<% end %>
+</div>

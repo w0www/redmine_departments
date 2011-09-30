@@ -3,7 +3,7 @@
     <tr>
       <th><%= l('department_name') %></th>
       <th><%= l('department_abbreviation') %></th>
-      <th><%= l('department_contacts') %></th>
+      <th><%= l('label_member_plural') %></th>
       <th><%= l('label_issue_plural') %></th>
 			<% if authorize_for_with_global(:departments, :delete, true) %>
       <th><%= l('department_remove') %></th>
@@ -15,7 +15,7 @@
       <tr class="<%= cycle("odd", "even") %>">
 				<td><%= link_to(department.name, department, :id => department) %></td>
 				<td><%= department.abbreviation %></td>
-				<td><%= department.contacts.count %></td>
+				<td><%= department.users.count %></td>
 				<td><%= department.issues.count %></td>
 				<% if authorize_for_with_global(:departments, :delete, true) %>
         <td style="border: 0; padding: 0;">

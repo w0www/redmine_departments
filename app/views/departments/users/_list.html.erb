@@ -1,0 +1,14 @@
+<table class="list">
+	<thead style="text-align:left;">
+    <tr>
+      <th style="width:200px;">Name (click to email)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <%- @department.users.each do |user| %>
+      <tr>
+      <td class="<%= user.class.name.downcase %>"><%= link_to_user user %></td>
+    </tr>
+    <%- end %>
+  </tbody>
+</table>

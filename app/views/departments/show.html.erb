@@ -4,18 +4,14 @@
 	</div>
 <% end %>
 <h2><%= link_to l(:label_department_plural), :controller => 'departments', :action => 'index' %> &#187; <%= @department.name %> (<%= @department.abbreviation %>)</h2>
-<h3>Contacts</h3>
+<h3><%= l(:label_member_plural) %></h3>
 <div id="department-contacts">
-
-  <%= render :partial => 'departments/contacts/list', :locals => { :department => @department }%>
-  
+  <%= render :partial => 'departments/users/list', :locals => { :department => @department }%>
 </div>
 
-<h3>Issues</h3>
+<h3><%= l(:label_issue_plural) %></h3>
 <div id="department-issues">
-
   <%= render :partial => 'departments/issues/list', :locals => { :department => @department }%>
-
 </div>
 
 <% html_title(l(:title_department_view)) -%>

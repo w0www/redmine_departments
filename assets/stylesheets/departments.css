@@ -1,3 +1,10 @@
 #admin-menu a.departments { background-image: url(../images/chart_organisation.png); }
 
 .icon-department-add { background-image: url(../images/chart_organisation_add.png); }
+
+div#departments-users-form .splitcontentleft, div#tab-content-memberships .splitcontentleft, div#tab-content-users .splitcontentleft { width: 64% }
+div#departments-users-form .splitcontentright, div#tab-content-memberships .splitcontentright, div#tab-content-users .splitcontentright { width: 34% }
+div#departments-users-form fieldset, div#tab-content-memberships fieldset, div#tab-content-users fieldset { padding:1em; margin-bottom: 1em; }
+div#departments-users-form fieldset legend, div#tab-content-memberships fieldset legend, div#tab-content-users fieldset legend { font-weight: bold; }
+div#departments-users-form fieldset label, div#tab-content-memberships fieldset label, div#tab-content-users fieldset label { display: block; }
+div#departments-users-form fieldset div, div#tab-content-users fieldset div { max-height: 400px; overflow:auto; }

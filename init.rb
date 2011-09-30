@@ -10,6 +10,7 @@ Dispatcher.to_prepare :redmine_departments do
   Issue.send(:include, RedmineDepartments::IssuePatch) unless Issue.included_modules.include?(RedmineDepartments::IssuePatch)
   ApplicationController.send(:include, RedmineDepartments::ApplicationControllerPatch) unless ApplicationController.included_modules.include?(RedmineDepartments::ApplicationControllerPatch)
   Query.send(:include, RedmineDepartments::QueryPatch) unless Query.included_modules.include? RedmineDepartments::QueryPatch
+  User.send(:include, RedmineDepartments::UserPatch) unless User.included_modules.include? RedmineDepartments::UserPatch
 end
 
 require_dependency 'departments_show_issue_hook'

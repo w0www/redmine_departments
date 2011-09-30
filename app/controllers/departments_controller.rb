@@ -24,7 +24,6 @@ class DepartmentsController < ApplicationController
 
   def new
     @department = Department.new
-    @department.contacts.build
     respond_to do |format|
       format.html 
       format.js do
@@ -37,7 +36,6 @@ class DepartmentsController < ApplicationController
 
   def edit
     @department = Department.find(params[:id])
-    @department.contacts.build
     respond_to do |format|
       format.html
     end
@@ -106,23 +104,58 @@ class DepartmentsController < ApplicationController
     end
   end
   
-  def removecontact
+  def adduser
     @department = Department.find(params[:id])
-    respond_to do |format|
-      if @department.contacts.delete(Contact.find(params[:contact_id]))
-        format.html { redirect_to @department }
-        format.js do
-          render :update do |page|
-            page.replace_html "department-contacts", :partial => 'departments/contacts/list', :locals => {:department => @department, :issue => @issue, :project => @project}
-          end
+    members = []
+    if params[:member] && request.post?
+      attrs = params[:member].dup
+      if (user_ids = attrs.delete(:user_ids))
+        user_ids.each do |user_id|
+          members << User.first( :conditions=> attrs.merge(:id => user_id) )
         end
       else
-        format.js do
-          render :update do |page|
-            page.replace_html "departments", :partial => 'departments/contacts/list', :locals => {:department => @department, :issue => @issue, :project => @project}
-          end
-        end
+        members << User.first( :conditions=> { :id => attrs } )
       end
+      @department.users << members
+    end
+    respond_to do |format|
+      if members.present? && members.all? {|m| m.valid? }
+
+        format.html { redirect_to :controller => 'departments', :action => 'edit', :id => @department }
+
+        format.js { 
+          render(:update) {|page| 
+            page.replace_html "departments-users-form", :partial => 'departments/users/form'
+            page << 'hideOnLoad()'
+            members.each {|member| page.visual_effect(:highlight, "member-#{member.id}") }
+          }
+        }
+      else
+
+        format.js {
+          render(:update) {|page|
+            errors = members.collect {|m|
+              m.errors.full_messages
+            }.flatten.uniq
+
+            page.alert(l(:notice_failed_to_save_members, :errors => errors.join(', ')))
+          }
+        }
+        
+      end
+    end
+  end
+  
+  def removeuser
+    @department = Department.find(params[:id])
+    @department.users.delete(User.find(params[:user_id]))
+    respond_to do |format|
+      format.html { redirect_to :controller => 'departments', :action => 'edit', :id => @department }
+      format.js { render(:update) {|page|
+          page.replace_html "departments-users-form", :partial => 'departments/users/form'
+          page << 'hideOnLoad()'
+        }
+      }
     end
   end
 
@@ -130,7 +163,7 @@ class DepartmentsController < ApplicationController
     @department = Department.new(params[:department])
     respond_to do |format|
       if @department.save
-        format.html { redirect_to departments_path }
+        format.html { redirect_to edit_department_path :id => @department }
       else
         format.html { render :new }
       end
