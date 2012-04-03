@@ -1,4 +1,4 @@
-class AddContacts < ActiveRecord::Migration
+class DropContacts < ActiveRecord::Migration
   def self.up
     remove_index :contacts, :column => :department_id
     drop_table :contacts
