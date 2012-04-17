@@ -17,9 +17,9 @@ class AddContacts < ActiveRecord::Migration
     remove_index :contacts, :column => :department_id
     drop_table :contacts
 
-    add_column :departments, :contact_phones, :limit => 200, :null => false, :default => nil
-    add_column :departments, :contact_emails, :limit => 200, :null => false, :default => nil
-    add_column :departments, :contact_names, :limit => 200, :null => false, :default => nil
-    add_column :departments, :course_names,  :limit => 200, :null => false, :default => nil
+    add_column :departments, :contact_phones, :string, { :limit => 200, :null => false, :default => '' }
+    add_column :departments, :contact_emails, :string, { :limit => 200, :null => false, :default => '' }
+    add_column :departments, :contact_names, :string, { :limit => 200, :null => false, :default => '' }
+    add_column :departments, :course_names, :string,  { :limit => 200, :null => false, :default => ''}
   end
 end
