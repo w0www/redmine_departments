@@ -1,0 +1,21 @@
+# Russian strings go here for Rails i18n
+ru:
+  field_departments: Отделы
+  field_department: Отдел
+  field_department_name: Наименование отдела
+  field_contacts: Контакты
+  field_name: Наименование
+  department_remove: Удалить
+  department_name: Наименование
+  department_abbreviation: Аббревиатура
+  label_department_plural: Отделы
+  title_department_plural: Отделы
+  title_department_new: Добавить отдел
+  title_department_edit: Редактировать отдел
+  title_department_view: Просмотреть отдел
+  link_cancel: Отменить
+  multi_select_key_command: Command
+  multi_select_key_control: Control
+  select_no_department: Standard Software (no department)
+  departments_role_for_assign: Роль назначающего
+  departments_use_assign_filter: Фильтр списка назначений

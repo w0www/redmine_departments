@@ -19,10 +19,12 @@ module RedmineDepartments
 
     module InstanceMethods
       def assignable_users_with_filter
-        if tracker.is_in_roadmap && new_record?
-          # fast change for clear user list
-          # TODO: move role and tracker to config
-          users = project.members.select {|m| m.roles.detect {|role| role.id == 3}}.collect {|m| m.user}.sort
+        assign_filter_role = Role.find(Setting.plugin_redmine_departments['role_for_assign_to_all'])
+        assign_filter_allow = Setting.plugin_redmine_departments['use_assign_filter'].to_i == 1
+        if assign_filter_allow &&
+            tracker.is_in_roadmap && new_record? &&
+            !User.current.roles_for_project(project).include?(assign_filter_role)
+          users = project.members.select {|m| m.roles.detect {|role| role == assign_filter_role}}.collect {|m| m.user}.sort
           users << author if author
           users.uniq.sort
         else

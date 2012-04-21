@@ -20,9 +20,13 @@ Redmine::Plugin.register :redmine_departments do
   author 'Nick Peelman'
   description 'Departments Plugin for the LSSupport Group.  Icons are from the Silk collection, by FamFamFam'
   version '1.0.0'
+  settings :default => {
+    :role_for_assign_to_all => "3",
+    :use_assign_filter => "0"
+  }, :partial => 'settings/redmine_departments_settings'
     
-  menu :top_menu, :departments, { :controller => :departments, :action => :index }, :caption => 'Departments'
-  menu :admin_menu, :departments, {:controller => :departments, :action => :index }, :caption => 'Departments'
+  menu :top_menu, :departments, { :controller => :departments, :action => :index }, :caption => :title_department_plural, :if => Proc.new{ User.current.logged? }
+  menu :admin_menu, :departments, {:controller => :departments, :action => :index }, :caption => :title_department_plural
   
   project_module :departments do |map|
     map.permission :view_departments, { :departments => [:index, :show] }

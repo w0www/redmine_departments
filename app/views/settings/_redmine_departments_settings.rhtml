@@ -1,0 +1,11 @@
+<p>
+  <label><%= l(:departments_use_assign_filter) %></label>
+  <%= hidden_field_tag 'settings[use_assign_filter]', 0 %>
+  <%= check_box_tag 'settings[use_assign_filter]', 1, @settings['use_assign_filter'].to_i == 1, :onchange => "$('role-for-assign-to-all').toggle()" %>
+</p>
+
+<p id="role-for-assign-to-all" <%='style="display:none"' unless @settings['use_assign_filter'].to_i == 1 %>>
+  <label><%= l(:departments_role_for_assign) %></label>
+  <%= select_tag('settings[role_for_assign_to_all]',
+  options_from_collection_for_select(Role.givable, 'id', 'name', @settings['role_for_assign_to_all'].to_i)) %>
+</p>
