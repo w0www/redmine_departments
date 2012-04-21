@@ -185,6 +185,12 @@ class DepartmentsController < ApplicationController
     end
   end
 
+  def autocomplete_for_user
+    @department = Department.find(params[:id])
+    @users = User.active.like(params[:q]).all(:limit => 100) - @department.users
+    render :layout => false
+  end
+  
 private
   def find_project
     @issue = Issue.find(params[:issue_id])
