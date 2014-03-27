@@ -1,29 +1,19 @@
 require 'redmine'
 
-require 'dispatcher'
-require 'will_paginate'
-
-Dispatcher.to_prepare :redmine_departments do
-  require_dependency 'issue'
-  # Guards against including the module multiple time (like in tests)
-  # and registering multiple callbacks
-  Issue.send(:include, RedmineDepartments::IssuePatch) unless Issue.included_modules.include?(RedmineDepartments::IssuePatch)
-  ApplicationController.send(:include, RedmineDepartments::ApplicationControllerPatch) unless ApplicationController.included_modules.include?(RedmineDepartments::ApplicationControllerPatch)
-  Query.send(:include, RedmineDepartments::QueryPatch) unless Query.included_modules.include? RedmineDepartments::QueryPatch
-  User.send(:include, RedmineDepartments::UserPatch) unless User.included_modules.include? RedmineDepartments::UserPatch
-end
-
-require_dependency 'departments_show_issue_hook'
+require 'redmine_departments'
 
 Redmine::Plugin.register :redmine_departments do
   name 'Redmine Departments plugin'
-  author 'Nick Peelman'
+  author 'Nick Peelman, Aleksandr Palyan'
   description 'Departments Plugin for the LSSupport Group.  Icons are from the Silk collection, by FamFamFam'
-  version '1.0.0'
-  settings :default => {
-    :role_for_assign_to_all => "3",
-    :use_assign_filter => "0"
-  }, :partial => 'settings/redmine_departments_settings'
+  version '1.0.1'
+  settings({
+    :partial => 'settings/redmine_departments_settings',
+    :default => {
+      :role_for_assign_to_all => "3",
+      :use_assign_filter => "0"
+    }
+  }) 
     
   menu :top_menu, :departments, { :controller => :departments, :action => :index }, :caption => :title_department_plural, :if => Proc.new{ User.current.logged? }
   menu :admin_menu, :departments, {:controller => :departments, :action => :index }, :caption => :title_department_plural

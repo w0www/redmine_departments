@@ -1,6 +1,8 @@
 class DepartmentsController < ApplicationController
   unloadable
-  
+
+  helper :members
+
   def index
 
     limit = per_page_option
@@ -105,57 +107,31 @@ class DepartmentsController < ApplicationController
   end
   
   def adduser
-    @department = Department.find(params[:id])
-    members = []
+    @department = Department.find(params[:department_id])
+    @members = []
     if params[:member] && request.post?
       attrs = params[:member].dup
       if (user_ids = attrs.delete(:user_ids))
         user_ids.each do |user_id|
-          members << User.first( :conditions=> attrs.merge(:id => user_id) )
+          @members << User.first( :conditions=> attrs.merge(:id => user_id) )
         end
       else
-        members << User.first( :conditions=> { :id => attrs } )
+        @members << User.first( :conditions=> { :id => attrs } )
       end
-      @department.users << members
+      @department.users << @members
     end
     respond_to do |format|
-      if members.present? && members.all? {|m| m.valid? }
-
-        format.html { redirect_to :controller => 'departments', :action => 'edit', :id => @department }
-
-        format.js { 
-          render(:update) {|page| 
-            page.replace_html "departments-users-form", :partial => 'departments/users/form'
-            page << 'hideOnLoad()'
-            members.each {|member| page.visual_effect(:highlight, "member-#{member.id}") }
-          }
-        }
-      else
-
-        format.js {
-          render(:update) {|page|
-            errors = members.collect {|m|
-              m.errors.full_messages
-            }.flatten.uniq
-
-            page.alert(l(:notice_failed_to_save_members, :errors => errors.join(', ')))
-          }
-        }
-        
-      end
+      format.html { redirect_to :controller => 'departments', :action => 'edit', :id => @department }
+      format.js
     end
   end
   
   def removeuser
-    @department = Department.find(params[:id])
+    @department = Department.find(params[:department_id])
     @department.users.delete(User.find(params[:user_id]))
     respond_to do |format|
       format.html { redirect_to :controller => 'departments', :action => 'edit', :id => @department }
-      format.js { render(:update) {|page|
-          page.replace_html "departments-users-form", :partial => 'departments/users/form'
-          page << 'hideOnLoad()'
-        }
-      }
+      format.js
     end
   end
 
@@ -186,9 +162,11 @@ class DepartmentsController < ApplicationController
   end
 
   def autocomplete_for_user
-    @department = Department.find(params[:id])
+    @department = Department.find(params[:department_id])
     @users = User.active.like(params[:q]).all(:limit => 100) - @department.users
-    render :layout => false
+    respond_to do |format|
+      format.js
+    end
   end
   
 private

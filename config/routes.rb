@@ -1,8 +1,8 @@
-ActionController::Routing::Routes.draw do |map|
-  map.resources :departments
-  map.with_options :controller => 'departments' do |departments_routes|
-    departments_routes.connect 'issues/:issue_id/departments/:action/:id'
-    departments_routes.connect 'departments/:id/:action'
-    departments_routes.connect 'departments/:id/:action/:user_id'
+RedmineApp::Application.routes.draw do
+  resources :departments do
+    get 'members/autocomplete', :to => 'departments#autocomplete_for_user', :as => :members_autocomplete
+    post 'adduser', :to => 'departments#adduser', :as => :add_member
+    delete 'removeuser/:user_id', :to => 'departments#removeuser', :as => :remove_member
   end
+  match 'issues/:issue_id/departments/:action/:id', :controller => 'departments'
 end

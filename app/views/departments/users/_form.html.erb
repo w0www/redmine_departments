@@ -17,11 +17,7 @@
 	<td class="<%= member.class.name.downcase %>"><%= link_to_user member %></td>
     <% if authorize_for_with_global :departments, :removecontact, true %>
   <td class="buttons">
-      <%= link_to_remote(l(:button_delete), { :url => {:controller => 'departments', :action => 'removeuser', :id => @department, :user_id => member},
-                                              :method => :post,
-                                              :confirm => (!User.current.admin? && member.include?(User.current) ? l(:text_own_membership_delete_confirmation) : nil)
-                                            }, :title => l(:button_delete),
-                                               :class => 'icon icon-del') %>
+      <%= delete_link department_remove_member_path(@department, member), :remote => true %>
   </td>
     <% end %>
 	</tr>
@@ -38,20 +34,15 @@
 
 <div class="splitcontentright">
 <% if principals.any? %>
-  <% remote_form_for(:member, @member, :url => {:controller => 'departments', :action => 'adduser', :id => @department}, :method => :post,
+  <%=form_for @member, {:as => :member, :remote => true, :url => department_add_member_path(@department), :method => :post,
 									   :loading => "$('member-add-submit').disable()",
-									   :complete => "$('member-add-submit').enable()") do |f| %>
+									   :complete => "$('member-add-submit').enable()"} do |f| %>
     <fieldset><legend><%=l(:label_member_new)%></legend>
     
 		<p><%= label_tag "principal_search", l(:label_user_search) %><%= text_field_tag 'principal_search', nil %></p>
-		<%= observe_field(:principal_search,
-                 :frequency => 0.5,
-                 :update => :principals,
-                 :url => { :controller => 'departments', :action => 'autocomplete_for_user', :id => @department },
-                 :with => 'q')
-                  %>
+                <%= javascript_tag "observeSearchfield('principal_search', null, '#{ escape_javascript department_members_autocomplete_path(@department, :format => 'js') }')" %>
 		
-		<div id="principals">
+		<div id="principals_for_new_member">
 			<%= principals_check_box_tags 'member[user_ids][]', principals %>
 		</div>
 		
