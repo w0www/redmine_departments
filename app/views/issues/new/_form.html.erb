@@ -5,9 +5,6 @@
   end %>
 <p>
   <label><%= l(:label_department_plural) %></label>
-        <% # Hack for select field data when select default department by get %>
-        <% @issue.departments = User.current.departments if !(@issue.nil? rescue true) && @issue.departments.empty? %>
-  
         <%= select('issue', 'department_ids', Department.all.sort_by(&:name).collect {|d| [ d.name, d.id ] }, { :include_blank => l(:select_no_department) }, {:size => 7, :multiple => :multiple } ) %><br />
         
         <span style="font-size:75%">(Hold <%= multi_select_key %> to select multiple departments)</span>

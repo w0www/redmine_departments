@@ -1,0 +1,5 @@
+<% if (@source == 'department') %>
+$('#department-issues').html('<%= escape_javascript(render(:partial => 'departments/issues/list', :locals => {:department => @department})) %>');
+<% elsif (@source == 'issue') %>
+$('#issue-departments').html('<%= escape_javascript(render(:partial => 'issues/departments/list', :locals => {:department => @department, :issue => @issue, :project => @project})) %>');
+<% end %>

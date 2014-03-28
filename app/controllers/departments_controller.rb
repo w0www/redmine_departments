@@ -59,21 +59,10 @@ class DepartmentsController < ApplicationController
     @issue = Issue.find(params[:issue_id])
     @project = @issue.project
     @department = Department.find(params[:department][:department_id])
+    @department.issues << @issue
     respond_to do |format|
-      if @department.issues<<@issue
-        format.html
-        format.js do
-          render :update do |page|
-            page.replace_html "issue-departments", :partial => 'issues/departments/list', :locals => {:department => @department, :issue => @issue, :project => @project}
-          end
-        end
-      else
-        format.js do
-          render :update do |page|
-            page.replace_html "issue-departments", :partial => 'issues/departments/list', :locals => {:department => @department, :issue => @issue, :project => @project}
-          end
-        end
-      end
+      format.html
+      format.js
     end
   end
   
@@ -81,28 +70,11 @@ class DepartmentsController < ApplicationController
     @issue = Issue.find(params[:issue_id])
     @project = @issue.project
     @department = Department.find(params[:department_id])
-    @source = params[:source];
+    @source = params[:source]
+    @department.issues.delete(@issue)
     respond_to do |format|
-      if @department.issues.delete(@issue)
-        format.html
-        format.js do
-          render :update do |page|
-            if (@source == 'department')
-              page.replace_html "department-issues", :partial => 'departments/issues/list', :locals => { :department => @department }
-            elsif (@source == 'issue')
-              page.replace_html "issue-departments", :partial => 'issues/departments/list', :locals => {:department => @department, :issue => @issue, :project => @project}
-            else
-              #do nothing
-            end
-          end
-        end
-      else
-        format.js do
-          render :update do |page|
-            page.replace_html "departments", :partial => 'issues/departments', :locals => {:department => @department, :issue => @issue, :project => @project}
-          end
-        end
-      end
+      format.html
+      format.js
     end
   end
   

@@ -16,7 +16,7 @@
 </div>
 
 <% if authorize_for('departments', 'addissue') %>
-  <%= render :partial => 'issues/departments/form', :locals => {}%>
+  <%= render :partial => 'issues/departments/form', :locals => {:issue => @issue}%>
 <% end %>
 
 </div>

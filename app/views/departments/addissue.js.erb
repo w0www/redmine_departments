@@ -1,0 +1,1 @@
+$('#issue-departments').html('<%= escape_javascript(render(:partial => 'issues/departments/list', :locals => {:department => @department, :issue => @issue, :project => @project})) %>');

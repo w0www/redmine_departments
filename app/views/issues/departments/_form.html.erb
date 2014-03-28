@@ -1,9 +1,9 @@
-<%= error_messages_for :department %>
+<%= error_messages_for 'department' %>
 	
-<% remote_form_for(:department, @department, 
-     :url => {:controller => 'departments', :action => 'addissue', :issue_id => @issue},
+<%= form_for @department, {:as => :department, :remote => true,
+     :url => issue_add_department_path(@issue),
      :method => :post,
-     :html => {:id => 'new-department-form', :style => (@department ? '' : 'display: none;')}) do |f| %>
+     :html => {:id => 'new-department-form', :style => (@department ? '' : 'display: none;')}} do |f| %>
        
 <table>
   <tr>

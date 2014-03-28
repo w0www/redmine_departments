@@ -4,9 +4,9 @@
 		  <th>ID</th>
 		  <th>Subject</th>
 		  <th>Status</th>
-			<% if authorize_for_with_global :departments, :removeissue, true %>
+                  <% if authorize_for_with_global :departments, :removeissue, true %>
 		  <th>Remove</th>
-			<% end %>
+                  <% end %>
 		</tr>
 	</thead>
   <tbody>
@@ -15,22 +15,11 @@
       <td>#<%= issue.id %></td>
       <td><%=link_to( issue.subject, :controller => 'issues', :action => 'show', :id => issue ) %></td>
       <td><%= IssueStatus.find(issue.status_id).name %></td>
-			<% if authorize_for_with_global :departments, :removeissue, true %>
+      <% if authorize_for_with_global :departments, :removeissue, true %>
       <td>
-        <%= link_to_remote(image_tag('delete.png'), {
-          :url => {
-            :controller => 'departments',
-            :action => 'removeissue',
-            :issue_id => issue.id,
-            :department_id => @department.id,
-            :only_path => true,
-            :source => 'department'
-          },
-          :confirm => "Remove this issue?",
-          :method => :post})
-        %>
+        <%= delete_link department_remove_issue_path(department, issue), :remote => true %>
       </td>
-			<% end %>
+      <% end %>
     </tr>
     <%- end %>
   </tbody>
