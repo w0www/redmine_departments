@@ -7,4 +7,7 @@ class Department < ActiveRecord::Base
   @@per_page = 25
   validates_presence_of :name
 
+  def to_s
+    name
+  end
 end
