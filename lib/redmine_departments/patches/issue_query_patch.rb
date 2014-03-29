@@ -9,14 +9,27 @@ module RedmineDepartments
         # Same as typing in the class
         base.class_eval do
           unloadable # Send unloadable so it will not be unloaded in development
-          #base.add_available_column(QueryColumn.new(:deliverable_subject, :sortable => "#{Deliverable.table_name}.subject"))
+          base.add_available_column(QueryColumn.new(:departments, :sortable => "#{Department.table_name}.name", :groupable => "#{IssueHasDepartment.table_name}.department_id"))
 
           alias_method_chain :initialize_available_filters, :departments
+          alias_method_chain :joins_for_order_statement, :departments
         end
 
       end
 
       module InstanceMethods
+        def joins_for_order_statement_with_departments(order_options)
+          joins = joins_for_order_statement_without_departments(order_options)
+          if order_options
+            if order_options.include?("#{Department.table_name}")
+              joins = "" if joins.nil?
+              joins += " LEFT JOIN #{IssueHasDepartment.table_name} ON #{IssueHasDepartment.table_name}.issue_id = #{queried_table_name}.id"
+              joins += " LEFT JOIN #{Department.table_name} ON #{Department.table_name}.id = #{IssueHasDepartment.table_name}.department_id"
+            end
+          end
+
+          joins
+        end
 
         def sql_for_department_id_field(field, operator, value)
           db_table = 'issue_has_departments'

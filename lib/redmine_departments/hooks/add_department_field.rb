@@ -62,7 +62,7 @@ module RedmineDepartments
       end
 
       def has_permission?(context)
-        context[:project].module_enabled?('departments') and User.current.allowed_to?(:view_departments, context[:project])
+        context[:project] && context[:project].module_enabled?('departments') && User.current.allowed_to?(:view_departments, context[:project])
       end
 
       def set_departments_on_issue(context)
