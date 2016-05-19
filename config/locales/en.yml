@@ -18,3 +18,6 @@ en:
   multi_select_key_command: Command
   multi_select_key_control: Control
   select_no_department: Standard Software (no department)
+  notice_failed_to_save_members: Failed to save, please select a member.
+  department_information: Department Information
+  choose_department: "Choose Department:"

@@ -30,11 +30,11 @@
 </div>
 
 
-<% principals = User.active.find(:all, :limit => 100, :order => 'type, login, lastname ASC') - @department.users %>
+<% principals = User.active.where("type <> 'AnonymousUser'").to_a - @department.users %>
 
 <div class="splitcontentright">
 <% if principals.any? %>
-  <%=form_for @member, {:as => :member, :remote => true, :url => department_add_member_path(@department), :method => :post,
+  <%= form_for "user", {:as => :member, :remote => true, :url => department_add_member_path(@department), :method => :post,
 									   :loading => "$('member-add-submit').disable()",
 									   :complete => "$('member-add-submit').enable()"} do |f| %>
     <fieldset><legend><%=l(:label_member_new)%></legend>

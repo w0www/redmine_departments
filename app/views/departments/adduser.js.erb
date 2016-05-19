@@ -1,9 +1,9 @@
 $('#departments-users-form').html('<%= escape_javascript(render :partial => 'departments/users/form') %>');
 hideOnLoad();
 
-<% if @members.present? && @members.all? {|m| m.valid? } %>
-  <% @members.each do |member| %>
-    $("#member-<%= member.id %>").effect("highlight");
+<% if @members.present? %>
+  <% for m in @members %>
+    $("#member-<%= m.first.id %>").effect("highlight");
   <% end %>
 <% else %>
   <% errors = @members.collect {|m| m.errors.full_messages}.flatten.uniq.join(', ') %>

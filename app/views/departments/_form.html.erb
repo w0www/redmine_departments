@@ -1,6 +1,6 @@
 <%= form_for @department do |f| %>
   <%= error_messages_for 'department' %>
-  <h3>Department Information</h3>
+  <h3><%= l(:department_information) %></h3>
   <table>
     <tbody>
       <tr>
@@ -11,10 +11,14 @@
         <td style="text-align:right;"><%= f.label :abbreviation %>:</td>
         <td><%= f.text_field :abbreviation, :size => 10 %></td>
       </tr>
+      <tr>
+        <p class="extended"><%= label_tag l(:field_contact_avatar) %> <%= file_field_tag 'contact_avatar[file]', :size => 30, :id => nil  -%> </p>
+      </tr>
+
     </tbody>
   </table>
   <hr />
   <p>
-    <%= f.submit "#{f.object.new_record? ? 'Create' : 'Save'} Department" %> <%= f.object.new_record? ? link_to(l(:link_cancel), departments_path) : link_to(l(:link_cancel), department_path, :id => @department)  %>
+    <%= f.submit "#{f.object.new_record? ? 'Crear' : 'Guardar'} Oficina" %> <%= f.object.new_record? ? link_to(l(:link_cancel), departments_path) : link_to(l(:link_cancel), department_path, :id => @department)  %>
   </p>
 <%- end %>

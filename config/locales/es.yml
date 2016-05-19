@@ -1,0 +1,20 @@
+# English strings go here for Rails i18n
+en:
+  field_departments: Oficinas
+  field_department: Oficina
+  field_department_name: Nombre de la oficina
+  department_remove: Borrar
+  department_name: Nombre
+  department_abbreviation: Abreviación
+  label_department_plural: Oficinas
+  title_department_plural: Oficinas
+  title_department_new: Nueva oficina
+  title_department_edit: Editar oficina
+  title_department_view: Ver oficina
+  link_cancel: Cancelar
+  multi_select_key_command: Comando
+  multi_select_key_control: Control
+  select_no_department: (niguno)
+  notice_failed_to_save_members: Error al guardar, seleccione miembros
+  department_information: Información Oficina
+  choose_department: "Elije oficina:"

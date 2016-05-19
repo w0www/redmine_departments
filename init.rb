@@ -15,7 +15,6 @@ Redmine::Plugin.register :redmine_departments do
     }
   }) 
     
-  menu :top_menu, :departments, { :controller => :departments, :action => :index }, :caption => :title_department_plural, :if => Proc.new{ User.current.logged? }
   menu :admin_menu, :departments, {:controller => :departments, :action => :index }, :caption => :title_department_plural
   
   project_module :departments do |map|

@@ -1,14 +1,13 @@
 <% if authorize_for_with_global('departments', 'new', true) %>
 	<div class="contextual">
-  	<%= link_to('New Department', new_department_path, :class => 'icon icon-department-add') %>
+  	<%= link_to(l(:title_department_new), new_department_path, :class => 'icon icon-department-add') %>
 	</div>
 <% end %>
-<h2>Departments</h2>
+<h2><%= l(:title_department_plural) %></h2>
 <% if authorize_for_with_global('departments', 'index', true) %>
-<div id="departments">
-	
-  <%= render :partial => 'list' %>
-  <p class="pagination"><%= pagination_links_full @departments_pages, @departments_count %></p>
-</div>
+  <div id="departments">
+    <%= render :partial => 'list' %>
+    <p class="pagination"><%= pagination_links_full @departments_pages, @departments_count %></p>
+  </div>
 <% end %>
 <% html_title(l(:title_department_plural)) -%>
