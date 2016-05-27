@@ -8,7 +8,7 @@
 <table>
   <tr>
     <td><%= l(:choose_department) %></td>
-		<td><%= select( 'department', 'department_id', @departments.map {|u| [u.name,u.id]} ) %></td>
+		<td><%= select( 'department', 'department_id', @departments.map {|u| [u.nombre,u.id]} ) %></td>
   </tr>
   <tr>
     <td colspan="2">

@@ -5,7 +5,7 @@
   end %>
 <p>
   <label><%= l(:label_department_plural) %></label>
-        <%= select('issue', 'department_ids', Department.all.sort_by(&:name).collect {|d| [ d.name, d.id ] }, {}, {:size => 7, :multiple => :multiple } ) %><br />
+        <%= select('issue', 'department_ids', Department.all.sort_by(&:nombre).collect {|d| [ d.nombre, d.id ] }, {}, {:size => 7, :multiple => :multiple } ) %><br />
         
         <span style="font-size:75%">(Hold <%= multi_select_key %> to select multiple departments)</span>
 </p>

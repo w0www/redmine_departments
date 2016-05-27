@@ -4,16 +4,84 @@
   <table>
     <tbody>
       <tr>
-        <td style="text-align:right;"><%= f.label :name %>:</td>
-        <td><%= f.text_field :name, :size => 40 %></td>
+        <td style="text-align:right;"><%= f.label :codigo %>:</td>
+        <td><%= f.text_field :codigo, :size => 40 %></td>
       </tr>
       <tr>
-        <td style="text-align:right;"><%= f.label :abbreviation %>:</td>
-        <td><%= f.text_field :abbreviation, :size => 10 %></td>
+        <td style="text-align:right;"><%= f.label :nombre %>:</td>
+        <td><%= f.text_field :nombre, :size => 40 %></td>
+      </tr>
+      <tr>
+        <td style="text-align:right;"><%= f.label :direccion %>:</td>
+        <td><%= f.text_field :direccion, :size => 40 %></td>
+      </tr>
+      <tr>
+        <td style="text-align:right;"><%= f.label :direccion2 %>:</td>
+        <td><%= f.text_field :direccion2, :size => 40 %></td>
+      </tr>
+      <tr>
+        <td style="text-align:right;"><%= f.label :codigo_postal %>:</td>
+        <td><%= f.text_field :codigo_postal, :size => 40 %></td>
+      </tr>
+      <tr>
+        <td style="text-align:right;"><%= f.label :localidad %>:</td>
+        <td><%= f.text_field :localidad, :size => 40 %></td>
+      </tr>
+      <tr>
+        <td style="text-align:right;"><%= f.label :territorio %>:</td>
+        <td><%= f.text_field :territorio, :size => 40 %></td>
+      </tr>
+      <tr>
+        <td style="text-align:right;"><%= f.label :telefono %>:</td>
+        <td><%= f.text_field :telefono, :size => 40 %></td>
+      </tr>
+      <tr>
+        <td style="text-align:right;"><%= f.label :fax %>:</td>
+        <td><%= f.text_field :fax, :size => 40 %></td>
+      </tr>
+      <tr>
+        <td style="text-align:right;"><%= f.label :email_oficina %>:</td>
+        <td><%= f.text_field :email_oficina, :size => 40 %></td>
+      </tr>
+      <tr>
+        <td style="text-align:right;"><%= f.label :telefono_vigilante %>:</td>
+        <td><%= f.text_field :telefono_vigilante, :size => 40 %></td>
+      </tr>
+      <tr>
+        <td style="text-align:right;"><%= f.label :responsable %>:</td>
+        <td><%= select_tag "department[responsable_id]", options_for_select(@members.collect{ |u| [u.name, u.id] }, selected: @department.responsable_id ), :include_blank => true %></td>
+      </tr>
+      <tr>
+        <td style="text-align:right;"><%= f.label :coordinador %>:</td>
+        <td><%= select_tag "department[coordinador_id]", options_for_select(@members.collect{ |u| [u.name, u.id] }, selected: @department.coordinador_id ), :include_blank => true %></td>
+      </tr>
+      <tr>
+        <td style="text-align:right;"><%= f.label :responsable_sepe %>:</td>
+        <td><%= f.text_field :responsable_sepe, :size => 40 %></td>
+      </tr>
+      <tr>
+        <td style="text-align:right;"><%= f.label :responsable_sepe %>:</td>
+        <td><%= f.text_field :responsable_sepe, :size => 40 %></td>
+      </tr>
+      <tr>
+        <td style="text-align:right;"><%= f.label :telefono_responsable_sepe %>:</td>
+        <td><%= f.text_field :telefono_responsable_sepe, :size => 40 %></td>
+      </tr>
+      <tr>
+        <td style="text-align:right;"><%= f.label :email_responsable_sepe %>:</td>
+        <td><%= f.text_field :email_responsable_sepe, :size => 40 %></td>
+      </tr>
+      <tr>
+        <td style="text-align:right;"><%= f.label :anotaciones %>:</td>
+        <td><%= f.text_field :anotaciones, :size => 200 %></td>
       </tr>
       <tr>
         <p class="extended"><%= label_tag l(:field_contact_avatar) %> <%= file_field_tag 'contact_avatar[file]', :size => 30, :id => nil  -%> </p>
       </tr>
+      
+
+
+
 
     </tbody>
   </table>

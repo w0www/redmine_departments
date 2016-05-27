@@ -1,0 +1,7 @@
+<% for attribute in @department.attributes.keys %>
+  <% unless attribute.humanize == "Id" %>
+      <p><strong><%= attribute.humanize %>:</strong> <%= @department.attributes[attribute].to_s %></p>
+  <% end %>
+<% end %>
+
+

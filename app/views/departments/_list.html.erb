@@ -13,8 +13,8 @@
   <tbody>
     <% @departments.each do |department| %>
       <tr class="<%= cycle("odd", "even") %>">
-				<td><%= link_to(department.name, department, :id => department) %></td>
-				<td><%= department.abbreviation %></td>
+				<td><%= link_to(department.nombre, department, :id => department) %></td>
+				<td><%= department.codigo %></td>
 				<td><%= department.users.count %></td>
 				<td><%= department.issues.count %></td>
 				<% if authorize_for_with_global(:departments, :delete, true) %>

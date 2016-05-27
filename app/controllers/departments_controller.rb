@@ -23,6 +23,7 @@ class DepartmentsController < ApplicationController
   end
 
   def new
+    @members = User.active.where("type <> 'AnonymousUser'")
     @department = Department.new
     respond_to do |format|
       format.html 
@@ -35,6 +36,7 @@ class DepartmentsController < ApplicationController
   end
 
   def edit
+    @members = User.active.where("type <> 'AnonymousUser'")
     @department = Department.find(params[:id])
     respond_to do |format|
       format.html
@@ -44,7 +46,7 @@ class DepartmentsController < ApplicationController
   def update
     @department = Department.find(params[:id])
     respond_to do |format|
-      if @department.update_attributes(:name => params[:department][:name], :abbreviation => params[:department][:abbreviation])
+      if @department.update_attributes(departments_params)
         flash[:notice] = 'Department updated!'
         format.html { redirect_to @department }
       else
@@ -103,7 +105,9 @@ class DepartmentsController < ApplicationController
   end
 
   def create
-    @department = Department.new(:name => params[:department][:name], :abbreviation => params[:department][:abbreviation])
+    @members = User.active.where("type <> 'AnonymousUser'")
+
+    @department = Department.new(departments_params)
     respond_to do |format|
       if @department.save
         format.html { redirect_to edit_department_path :id => @department }
@@ -143,5 +147,11 @@ private
   rescue ActiveRecord::RecordNotFound
     render_404
   end
-  
+
+  # Rails 4 Integration.
+  def departments_params
+    params.require(:department).permit(:nombre, :codigo,:direccion,:direccion2,:codigo_postal,:localidad,:territorio,:telefono,:fax,:email_oficina,:telefono_vigilante,
+                                        :responsable_sepe,:telefono_responsable_sepe,:email_responsable_sepe,:anotaciones, :responsable_id,:coordinador_id)
+  end
+
 end

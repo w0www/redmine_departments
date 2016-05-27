@@ -3,11 +3,14 @@
     <ul>
       <table style="width: 100%; border: 0; margin-bottom: 0;">
         <% issue.departments.each do |department| %>
+          <strong><%= link_to(department.nombre, department, :id => department) %></strong>
           <tr>
             <td style="border: 0; padding: 0;">
-              <li>
-                <%= link_to(department.name, department, :id => department) %>
-              </li>
+              <% for attribute in department.attributes.keys %>
+                <% unless attribute.humanize == "Id" || attribute.humanize == "Nombre" || attribute.humanize == "Anotaciones" %>
+                    <p><strong><%= attribute.humanize %>:</strong> <%= department.attributes[attribute].to_s %></p>
+                <% end %>
+              <% end %>
             </td>
             <% if authorize_for('departments', 'removeissue') %>
               <td style="border: 0; padding: 0;">

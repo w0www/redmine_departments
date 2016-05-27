@@ -1,4 +1,4 @@
-<h2><%= link_to l(:label_department_plural), :controller => 'departments', :action => 'index' %> &#187; <%= link_to "#{@department.name} (#{@department.abbreviation})", @department %> &#187; <%= l(:title_department_edit) %></h2>
+<h2><%= link_to l(:label_department_plural), :controller => 'departments', :action => 'index' %> &#187; <%= link_to "#{@department.nombre} (#{@department.codigo})", @department %> &#187; <%= l(:title_department_edit) %></h2>
 
 <%= render :partial => 'form' %>
   <h3><%= l(:label_member_plural) %></h3>

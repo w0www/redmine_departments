@@ -41,7 +41,7 @@ module RedmineDepartments
         def initialize_available_filters_with_departments
           initialize_available_filters_without_departments
           add_available_filter "department_id",
-            :type => :list_optional, :values => Department.all().collect { |d| [d.name, d.id.to_s] }
+            :type => :list_optional, :values => Department.all().collect { |d| [d.nombre, d.id.to_s] }
         end
       end
     end
